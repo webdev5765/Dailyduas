@@ -1,0 +1,666 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Daily Adhkār — A Companion for the Day</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Amiri:ital,wght@0,400;0,700;1,400&family=Karla:wght@400;500;700&family=Newsreader:ital,opsz,wght@0,6..72,300;0,6..72,400;0,6..72,500;0,6..72,600;1,6..72,300;1,6..72,400&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:#EDEBE4;
+    --card:#F6F4EE;
+    --ink:#1C2621;
+    --ink-soft:#535F57;
+    --ink-faint:#8A9189;
+    --rubric:#9B3B2E;
+    --brass:#8A6A2F;
+    --verdigris:#35604F;
+    --night:#2B3A5C;
+    --rule:#D4D0C4;
+    --measure:44rem;
+  }
+
+  *{box-sizing:border-box;}
+
+  html{ -webkit-text-size-adjust:100%; }
+
+  body{
+    margin:0;
+    background:var(--paper);
+    color:var(--ink);
+    font-family:'Newsreader',Georgia,'Times New Roman',serif;
+    font-size:17px;
+    line-height:1.6;
+    font-weight:300;
+  }
+
+  .wrap{
+    max-width:var(--measure);
+    margin:0 auto;
+    padding:0 1.25rem 5rem;
+  }
+
+  /* ---------- Hero ---------- */
+  .hero{
+    padding:3.5rem 0 2.25rem;
+    text-align:center;
+    border-bottom:1px solid var(--rule);
+  }
+  .eyebrow{
+    font-family:'Karla',system-ui,sans-serif;
+    font-size:.68rem;
+    letter-spacing:.22em;
+    text-transform:uppercase;
+    color:var(--brass);
+    margin:0 0 1.75rem;
+  }
+  .hero-ar{
+    font-family:'Amiri','Scheherazade New',serif;
+    direction:rtl;
+    font-size:2.1rem;
+    line-height:1.9;
+    color:var(--ink);
+    margin:0 0 .9rem;
+  }
+  .hero-en{
+    font-style:italic;
+    font-size:1.02rem;
+    color:var(--ink-soft);
+    margin:0 0 .35rem;
+    font-weight:300;
+  }
+  .hero-src{
+    font-family:'Karla',system-ui,sans-serif;
+    font-size:.72rem;
+    letter-spacing:.1em;
+    text-transform:uppercase;
+    color:var(--ink-faint);
+    margin:0 0 2.25rem;
+  }
+  .hero h1{
+    font-family:'Newsreader',serif;
+    font-weight:400;
+    font-size:1.55rem;
+    letter-spacing:.01em;
+    margin:0 0 .5rem;
+  }
+  .hero p.lede{
+    margin:0 auto;
+    max-width:32rem;
+    color:var(--ink-soft);
+    font-size:.97rem;
+  }
+
+  .actions{margin-top:1.75rem;}
+  button.print{
+    font-family:'Karla',system-ui,sans-serif;
+    font-size:.72rem;
+    letter-spacing:.16em;
+    text-transform:uppercase;
+    background:transparent;
+    color:var(--ink);
+    border:1px solid var(--ink);
+    padding:.7rem 1.4rem;
+    cursor:pointer;
+    transition:background .18s ease,color .18s ease;
+  }
+  button.print:hover{background:var(--ink);color:var(--paper);}
+  button.print:focus-visible{outline:2px solid var(--rubric);outline-offset:3px;}
+
+  /* ---------- Section headers (the arc of the day) ---------- */
+  .section{padding-top:3.25rem;}
+  .section-head{
+    display:flex;
+    align-items:baseline;
+    gap:.85rem;
+    padding-bottom:.6rem;
+    border-bottom:1px solid var(--rule);
+    margin-bottom:1.75rem;
+  }
+  .dot{
+    width:9px;height:9px;border-radius:50%;
+    flex:0 0 auto;
+    background:var(--brass);
+    transform:translateY(-2px);
+  }
+  .section[data-time="dawn"] .dot{background:#B8863B;}
+  .section[data-time="morning"] .dot{background:var(--brass);}
+  .section[data-time="prayer"] .dot{background:var(--verdigris);}
+  .section[data-time="day"] .dot{background:#5C7A4E;}
+  .section[data-time="evening"] .dot{background:#7A5A6B;}
+  .section[data-time="night"] .dot{background:var(--night);}
+
+  .section-head h2{
+    font-family:'Newsreader',serif;
+    font-weight:400;
+    font-size:1.28rem;
+    margin:0;
+    flex:1 1 auto;
+  }
+  .when{
+    font-family:'Karla',system-ui,sans-serif;
+    font-size:.66rem;
+    letter-spacing:.16em;
+    text-transform:uppercase;
+    color:var(--ink-faint);
+    text-align:right;
+    flex:0 0 auto;
+  }
+  .section-note{
+    font-size:.92rem;
+    color:var(--ink-soft);
+    margin:-.9rem 0 1.9rem;
+    font-style:italic;
+  }
+
+  /* ---------- Dua card ---------- */
+  .dua{
+    background:var(--card);
+    border:1px solid var(--rule);
+    padding:1.4rem 1.35rem 1.15rem;
+    margin-bottom:1.4rem;
+  }
+  .dua-head{
+    display:flex;
+    align-items:baseline;
+    gap:.7rem;
+    margin-bottom:1.1rem;
+  }
+  .num{
+    font-family:'Karla',system-ui,sans-serif;
+    font-size:.7rem;
+    font-weight:700;
+    color:var(--rubric);
+    flex:0 0 auto;
+    min-width:1.4rem;
+  }
+  .dua-head h3{
+    font-family:'Karla',system-ui,sans-serif;
+    font-weight:500;
+    font-size:.76rem;
+    letter-spacing:.13em;
+    text-transform:uppercase;
+    color:var(--ink-soft);
+    margin:0;
+    flex:1 1 auto;
+  }
+  .count{
+    font-family:'Karla',system-ui,sans-serif;
+    font-size:.7rem;
+    font-weight:700;
+    letter-spacing:.06em;
+    color:var(--rubric);
+    border:1px solid var(--rubric);
+    padding:.12rem .45rem;
+    flex:0 0 auto;
+    white-space:nowrap;
+  }
+
+  .ar{
+    font-family:'Amiri','Scheherazade New','Traditional Arabic',serif;
+    direction:rtl;
+    text-align:right;
+    font-size:1.7rem;
+    line-height:2.15;
+    color:var(--ink);
+    border-top:1px solid var(--rule);
+    border-bottom:1px solid var(--rule);
+    padding:1rem .2rem 1.05rem;
+    margin-bottom:1rem;
+  }
+  .ar .ayah{color:var(--rubric);font-size:1.1rem;}
+
+  .tr{
+    font-family:'Karla',system-ui,sans-serif;
+    font-size:.83rem;
+    line-height:1.75;
+    color:var(--ink-faint);
+    margin:0 0 .75rem;
+  }
+  .en{
+    margin:0 0 .9rem;
+    font-size:1.02rem;
+    line-height:1.65;
+  }
+  .virtue{
+    font-size:.92rem;
+    color:var(--ink-soft);
+    font-style:italic;
+    margin:0 0 .9rem;
+    padding-left:.85rem;
+    border-left:2px solid var(--brass);
+  }
+  .src{
+    font-family:'Karla',system-ui,sans-serif;
+    font-size:.7rem;
+    letter-spacing:.07em;
+    color:var(--ink-faint);
+    margin:0;
+    padding-top:.7rem;
+    border-top:1px dotted var(--rule);
+  }
+  .src strong{color:var(--ink-soft);font-weight:500;}
+
+  /* ---------- Colophon ---------- */
+  .colophon{
+    margin-top:4rem;
+    padding-top:1.75rem;
+    border-top:1px solid var(--rule);
+    font-size:.9rem;
+    color:var(--ink-soft);
+  }
+  .colophon h2{
+    font-family:'Karla',system-ui,sans-serif;
+    font-size:.7rem;
+    letter-spacing:.2em;
+    text-transform:uppercase;
+    color:var(--brass);
+    margin:0 0 1rem;
+  }
+  .colophon p{margin:0 0 .85rem;}
+  .colophon ul{margin:0 0 .85rem;padding-left:1.1rem;}
+  .colophon li{margin-bottom:.4rem;}
+
+  /* ---------- Motion ---------- */
+  .section,.hero{animation:rise .7s ease both;}
+  .section:nth-of-type(2){animation-delay:.05s;}
+  @keyframes rise{from{opacity:0;transform:translateY(10px);}to{opacity:1;transform:none;}}
+  @media (prefers-reduced-motion: reduce){
+    .section,.hero{animation:none;}
+  }
+
+  /* ---------- Small screens ---------- */
+  @media (max-width:520px){
+    body{font-size:16px;}
+    .hero-ar{font-size:1.65rem;}
+    .ar{font-size:1.45rem;line-height:2.05;}
+    .dua{padding:1.15rem 1rem 1rem;}
+    .dua-head{flex-wrap:wrap;}
+  }
+
+  /* ---------- Print ---------- */
+  @media print{
+    :root{--paper:#fff;--card:#fff;--rule:#bbb;}
+    body{background:#fff;font-size:11.5pt;}
+    .actions{display:none;}
+    .wrap{max-width:none;padding:0;}
+    .dua{break-inside:avoid;page-break-inside:avoid;border:1px solid #ccc;margin-bottom:.85rem;}
+    .section{break-before:auto;padding-top:1.5rem;}
+    .section-head{break-after:avoid;}
+    .hero{padding-top:0;}
+    .ar{font-size:19pt;line-height:2;}
+    a{color:inherit;text-decoration:none;}
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header class="hero">
+    <p class="eyebrow">Daily Adhkār</p>
+    <p class="hero-ar">أَلَا بِذِكْرِ ٱللَّهِ تَطْمَئِنُّ ٱلْقُلُوبُ</p>
+    <p class="hero-en">Surely it is in the remembrance of Allah that hearts find rest.</p>
+    <p class="hero-src">Qur'ān 13:28</p>
+    <h1>Duʿās to keep every day</h1>
+    <p class="lede">Arranged along the arc of a single day — from waking, through the five prayers, to sleep. Every entry is from the Qur'ān or from a ḥadīth that is ṣaḥīḥ or ḥasan, with the source given underneath.</p>
+    <div class="actions">
+      <button class="print" onclick="window.print()">Print or save as PDF</button>
+    </div>
+  </header>
+
+  <!-- ================= WAKING ================= -->
+  <section class="section" data-time="dawn">
+    <div class="section-head">
+      <span class="dot"></span>
+      <h2>On waking</h2>
+      <span class="when">Before Fajr</span>
+    </div>
+
+    <article class="dua">
+      <div class="dua-head"><span class="num">1</span><h3>The first words of the day</h3><span class="count">once</span></div>
+      <div class="ar" dir="rtl" lang="ar">الْحَمْدُ لِلَّهِ الَّذِي أَحْيَانَا بَعْدَ مَا أَمَاتَنَا وَإِلَيْهِ النُّشُورُ</div>
+      <p class="tr">Al-ḥamdu lillāhi alladhī aḥyānā baʿda mā amātanā wa ilayhi'n-nushūr.</p>
+      <p class="en">All praise is for Allah, who gave us life after He caused us to die, and to Him is the resurrection.</p>
+      <p class="src"><strong>Ṣaḥīḥ al-Bukhārī</strong> 6312 — the Prophet ﷺ said this on waking.</p>
+    </article>
+
+    <article class="dua">
+      <div class="dua-head"><span class="num">2</span><h3>Waking during the night</h3><span class="count">as needed</span></div>
+      <div class="ar" dir="rtl" lang="ar">لَا إِلَهَ إِلَّا اللَّهُ وَحْدَهُ لَا شَرِيكَ لَهُ، لَهُ الْمُلْكُ وَلَهُ الْحَمْدُ وَهُوَ عَلَى كُلِّ شَيْءٍ قَدِيرٌ، الْحَمْدُ لِلَّهِ، وَسُبْحَانَ اللَّهِ، وَلَا إِلَهَ إِلَّا اللَّهُ، وَاللَّهُ أَكْبَرُ، وَلَا حَوْلَ وَلَا قُوَّةَ إِلَّا بِاللَّهِ. رَبِّ اغْفِرْ لِي</div>
+      <p class="tr">Lā ilāha illā-llāhu waḥdahu lā sharīka lah, lahu'l-mulku wa lahu'l-ḥamd, wa huwa ʿalā kulli shay'in qadīr. Al-ḥamdu lillāh, wa subḥāna-llāh, wa lā ilāha illā-llāh, wa-llāhu akbar, wa lā ḥawla wa lā quwwata illā billāh. Rabbi-ghfir lī.</p>
+      <p class="en">There is no god but Allah alone, with no partner. His is the dominion and His is the praise, and He is able to do all things. Praise be to Allah, glory be to Allah, there is no god but Allah, Allah is the greatest, and there is no power or strength except with Allah. My Lord, forgive me.</p>
+      <p class="virtue">Whoever says this and then supplicates, his supplication is answered; and if he performs wuḍūʾ and prays, his prayer is accepted.</p>
+      <p class="src"><strong>Ṣaḥīḥ al-Bukhārī</strong> 1154.</p>
+    </article>
+  </section>
+
+  <!-- ================= MORNING & EVENING ================= -->
+  <section class="section" data-time="morning">
+    <div class="section-head">
+      <span class="dot"></span>
+      <h2>Morning &amp; evening adhkār</h2>
+      <span class="when">After Fajr · After ʿAṣr</span>
+    </div>
+    <p class="section-note">Recite the whole set twice a day. In the evening, the wording marked below changes from "we have entered the morning" to "we have entered the evening."</p>
+
+    <article class="dua">
+      <div class="dua-head"><span class="num">3</span><h3>Āyat al-Kursī</h3><span class="count">once</span></div>
+      <div class="ar" dir="rtl" lang="ar">اللَّهُ لَا إِلَٰهَ إِلَّا هُوَ الْحَيُّ الْقَيُّومُ ۚ لَا تَأْخُذُهُ سِنَةٌ وَلَا نَوْمٌ ۚ لَهُ مَا فِي السَّمَاوَاتِ وَمَا فِي الْأَرْضِ ۗ مَن ذَا الَّذِي يَشْفَعُ عِندَهُ إِلَّا بِإِذْنِهِ ۚ يَعْلَمُ مَا بَيْنَ أَيْدِيهِمْ وَمَا خَلْفَهُمْ ۖ وَلَا يُحِيطُونَ بِشَيْءٍ مِّنْ عِلْمِهِ إِلَّا بِمَا شَاءَ ۚ وَسِعَ كُرْسِيُّهُ السَّمَاوَاتِ وَالْأَرْضَ ۖ وَلَا يَئُودُهُ حِفْظُهُمَا ۚ وَهُوَ الْعَلِيُّ الْعَظِيمُ</div>
+      <p class="tr">Allāhu lā ilāha illā huwa'l-ḥayyu'l-qayyūm…</p>
+      <p class="en">Allah — there is no god but He, the Ever-Living, the Sustainer of all. Neither drowsiness nor sleep overtakes Him. To Him belongs whatever is in the heavens and whatever is on the earth. Who is there that can intercede with Him except by His permission? He knows what lies before them and what lies behind them, and they encompass nothing of His knowledge except what He wills. His Kursī extends over the heavens and the earth, and their preservation does not weary Him. He is the Most High, the Most Great.</p>
+      <p class="virtue">Whoever recites it in the morning is protected from the jinn until evening, and whoever recites it in the evening is protected until morning.</p>
+      <p class="src"><strong>Qur'ān 2:255.</strong> Virtue: al-Ḥākim, <em>al-Mustadrak</em>; graded ṣaḥīḥ by al-Albānī in <em>Ṣaḥīḥ al-Targhīb</em> 662.</p>
+    </article>
+
+    <article class="dua">
+      <div class="dua-head"><span class="num">4</span><h3>Sūrat al-Ikhlāṣ</h3><span class="count">×3</span></div>
+      <div class="ar" dir="rtl" lang="ar">قُلْ هُوَ اللَّهُ أَحَدٌ <span class="ayah">﴿١﴾</span> اللَّهُ الصَّمَدُ <span class="ayah">﴿٢﴾</span> لَمْ يَلِدْ وَلَمْ يُولَدْ <span class="ayah">﴿٣﴾</span> وَلَمْ يَكُن لَّهُ كُفُوًا أَحَدٌ <span class="ayah">﴿٤﴾</span></div>
+      <p class="en">Say: He is Allah, One. Allah, the Eternal Refuge. He does not beget, nor was He begotten. And there is none comparable to Him.</p>
+      <p class="src"><strong>Qur'ān 112.</strong></p>
+    </article>
+
+    <article class="dua">
+      <div class="dua-head"><span class="num">5</span><h3>Sūrat al-Falaq</h3><span class="count">×3</span></div>
+      <div class="ar" dir="rtl" lang="ar">قُلْ أَعُوذُ بِرَبِّ الْفَلَقِ <span class="ayah">﴿١﴾</span> مِن شَرِّ مَا خَلَقَ <span class="ayah">﴿٢﴾</span> وَمِن شَرِّ غَاسِقٍ إِذَا وَقَبَ <span class="ayah">﴿٣﴾</span> وَمِن شَرِّ النَّفَّاثَاتِ فِي الْعُقَدِ <span class="ayah">﴿٤﴾</span> وَمِن شَرِّ حَاسِدٍ إِذَا حَسَدَ <span class="ayah">﴿٥﴾</span></div>
+      <p class="en">Say: I seek refuge with the Lord of the daybreak, from the evil of what He created, from the evil of darkness when it settles, from the evil of those who blow on knots, and from the evil of an envier when he envies.</p>
+      <p class="src"><strong>Qur'ān 113.</strong></p>
+    </article>
+
+    <article class="dua">
+      <div class="dua-head"><span class="num">6</span><h3>Sūrat an-Nās</h3><span class="count">×3</span></div>
+      <div class="ar" dir="rtl" lang="ar">قُلْ أَعُوذُ بِرَبِّ النَّاسِ <span class="ayah">﴿١﴾</span> مَلِكِ النَّاسِ <span class="ayah">﴿٢﴾</span> إِلَٰهِ النَّاسِ <span class="ayah">﴿٣﴾</span> مِن شَرِّ الْوَسْوَاسِ الْخَنَّاسِ <span class="ayah">﴿٤﴾</span> الَّذِي يُوَسْوِسُ فِي صُدُورِ النَّاسِ <span class="ayah">﴿٥﴾</span> مِنَ الْجِنَّةِ وَالنَّاسِ <span class="ayah">﴿٦﴾</span></div>
+      <p class="en">Say: I seek refuge with the Lord of mankind, the King of mankind, the God of mankind, from the evil of the retreating whisperer, who whispers in the breasts of mankind, from among the jinn and mankind.</p>
+      <p class="virtue">Recite the three sūrahs three times, morning and evening — they will suffice you against everything.</p>
+      <p class="src"><strong>Qur'ān 114.</strong> Virtue: <strong>Sunan Abī Dāwūd</strong> 5082 and <strong>Jāmiʿ at-Tirmidhī</strong> 3575 — graded ḥasan ṣaḥīḥ.</p>
+    </article>
+
+    <article class="dua">
+      <div class="dua-head"><span class="num">7</span><h3>Sayyid al-Istighfār — the master supplication for forgiveness</h3><span class="count">once</span></div>
+      <div class="ar" dir="rtl" lang="ar">اللَّهُمَّ أَنْتَ رَبِّي لَا إِلَهَ إِلَّا أَنْتَ، خَلَقْتَنِي وَأَنَا عَبْدُكَ، وَأَنَا عَلَى عَهْدِكَ وَوَعْدِكَ مَا اسْتَطَعْتُ، أَعُوذُ بِكَ مِنْ شَرِّ مَا صَنَعْتُ، أَبُوءُ لَكَ بِنِعْمَتِكَ عَلَيَّ، وَأَبُوءُ بِذَنْبِي فَاغْفِرْ لِي فَإِنَّهُ لَا يَغْفِرُ الذُّنُوبَ إِلَّا أَنْتَ</div>
+      <p class="tr">Allāhumma anta rabbī, lā ilāha illā anta, khalaqtanī wa anā ʿabduk, wa anā ʿalā ʿahdika wa waʿdika ma-staṭaʿt. Aʿūdhu bika min sharri mā ṣanaʿt, abū'u laka biniʿmatika ʿalayy, wa abū'u bidhanbī fa-ghfir lī fa innahu lā yaghfiru'dh-dhunūba illā ant.</p>
+      <p class="en">O Allah, You are my Lord; there is no god but You. You created me and I am Your servant, and I hold to Your covenant and Your promise as much as I am able. I seek refuge in You from the evil of what I have done. I acknowledge Your favour upon me, and I acknowledge my sin — so forgive me, for none forgives sins except You.</p>
+      <p class="virtue">Whoever says it in the day with certainty and dies before evening, or says it at night with certainty and dies before morning, will be among the people of Paradise.</p>
+      <p class="src"><strong>Ṣaḥīḥ al-Bukhārī</strong> 6306.</p>
+    </article>
+
+    <article class="dua">
+      <div class="dua-head"><span class="num">8</span><h3>The kingdom belongs to Allah</h3><span class="count">once</span></div>
+      <div class="ar" dir="rtl" lang="ar">أَصْبَحْنَا وَأَصْبَحَ الْمُلْكُ لِلَّهِ، وَالْحَمْدُ لِلَّهِ، لَا إِلَهَ إِلَّا اللَّهُ وَحْدَهُ لَا شَرِيكَ لَهُ، لَهُ الْمُلْكُ وَلَهُ الْحَمْدُ وَهُوَ عَلَى كُلِّ شَيْءٍ قَدِيرٌ. رَبِّ أَسْأَلُكَ خَيْرَ مَا فِي هَذَا الْيَوْمِ وَخَيْرَ مَا بَعْدَهُ، وَأَعُوذُ بِكَ مِنْ شَرِّ مَا فِي هَذَا الْيَوْمِ وَشَرِّ مَا بَعْدَهُ، رَبِّ أَعُوذُ بِكَ مِنَ الْكَسَلِ وَسُوءِ الْكِبَرِ، رَبِّ أَعُوذُ بِكَ مِنْ عَذَابٍ فِي النَّارِ وَعَذَابٍ فِي الْقَبْرِ</div>
+      <p class="tr">Aṣbaḥnā wa aṣbaḥa'l-mulku lillāh, wa'l-ḥamdu lillāh… <em>(In the evening: </em>Amsaynā wa amsā'l-mulku lillāh… <em>and </em>khayra mā fī hādhihi'l-laylah<em>)</em></p>
+      <p class="en">We have entered the morning and the dominion belongs to Allah. All praise is for Allah. There is no god but Allah alone, with no partner; His is the dominion and His is the praise, and He is able to do all things. My Lord, I ask You for the good of this day and the good of what follows it, and I seek refuge in You from the evil of this day and the evil of what follows it. My Lord, I seek refuge in You from laziness and the misery of old age. My Lord, I seek refuge in You from punishment in the Fire and punishment in the grave.</p>
+      <p class="src"><strong>Ṣaḥīḥ Muslim</strong> 2723.</p>
+    </article>
+
+    <article class="dua">
+      <div class="dua-head"><span class="num">9</span><h3>By You we live and die</h3><span class="count">once</span></div>
+      <div class="ar" dir="rtl" lang="ar">اللَّهُمَّ بِكَ أَصْبَحْنَا، وَبِكَ أَمْسَيْنَا، وَبِكَ نَحْيَا، وَبِكَ نَمُوتُ، وَإِلَيْكَ النُّشُورُ</div>
+      <p class="tr">Allāhumma bika aṣbaḥnā, wa bika amsaynā, wa bika naḥyā, wa bika namūt, wa ilayka'n-nushūr. <em>(Evening: ends </em>wa ilayka'l-maṣīr<em>)</em></p>
+      <p class="en">O Allah, by You we enter the morning and by You we enter the evening; by You we live and by You we die, and to You is the resurrection. <em>(Evening: …and to You is the return.)</em></p>
+      <p class="src"><strong>Jāmiʿ at-Tirmidhī</strong> 3391 — graded ḥasan; also <strong>Sunan Abī Dāwūd</strong> 5068.</p>
+    </article>
+
+    <article class="dua">
+      <div class="dua-head"><span class="num">10</span><h3>Protection from all harm</h3><span class="count">×3</span></div>
+      <div class="ar" dir="rtl" lang="ar">بِسْمِ اللَّهِ الَّذِي لَا يَضُرُّ مَعَ اسْمِهِ شَيْءٌ فِي الْأَرْضِ وَلَا فِي السَّمَاءِ وَهُوَ السَّمِيعُ الْعَلِيمُ</div>
+      <p class="tr">Bismillāhi alladhī lā yaḍurru maʿa-smihi shay'un fi'l-arḍi wa lā fi's-samā', wa huwa's-samīʿu'l-ʿalīm.</p>
+      <p class="en">In the name of Allah, with whose name nothing on earth or in the heaven can cause harm — and He is the All-Hearing, the All-Knowing.</p>
+      <p class="virtue">Whoever says it three times in the morning and three times in the evening, nothing will harm him.</p>
+      <p class="src"><strong>Sunan Abī Dāwūd</strong> 5088 and <strong>Jāmiʿ at-Tirmidhī</strong> 3388 — graded ḥasan ṣaḥīḥ.</p>
+    </article>
+
+    <article class="dua">
+      <div class="dua-head"><span class="num">11</span><h3>Contentment with Allah, Islam and the Prophet ﷺ</h3><span class="count">×3</span></div>
+      <div class="ar" dir="rtl" lang="ar">رَضِيتُ بِاللَّهِ رَبًّا، وَبِالْإِسْلَامِ دِينًا، وَبِمُحَمَّدٍ صَلَّى اللَّهُ عَلَيْهِ وَسَلَّمَ نَبِيًّا</div>
+      <p class="tr">Raḍītu billāhi rabban, wa bi'l-islāmi dīnan, wa bi-Muḥammadin ﷺ nabiyyā.</p>
+      <p class="en">I am content with Allah as my Lord, with Islam as my religion, and with Muhammad ﷺ as my Prophet.</p>
+      <p class="virtue">Whoever says this three times morning and evening, Allah has taken it upon Himself to please him on the Day of Resurrection.</p>
+      <p class="src"><strong>Sunan Abī Dāwūd</strong> 5072 and <strong>Jāmiʿ at-Tirmidhī</strong> 3389 — graded ḥasan.</p>
+    </article>
+
+    <article class="dua">
+      <div class="dua-head"><span class="num">12</span><h3>Asking for pardon and wellbeing</h3><span class="count">once</span></div>
+      <div class="ar" dir="rtl" lang="ar">اللَّهُمَّ إِنِّي أَسْأَلُكَ الْعَفْوَ وَالْعَافِيَةَ فِي الدُّنْيَا وَالْآخِرَةِ، اللَّهُمَّ إِنِّي أَسْأَلُكَ الْعَفْوَ وَالْعَافِيَةَ فِي دِينِي وَدُنْيَايَ وَأَهْلِي وَمَالِي، اللَّهُمَّ اسْتُرْ عَوْرَاتِي وَآمِنْ رَوْعَاتِي، اللَّهُمَّ احْفَظْنِي مِنْ بَيْنِ يَدَيَّ وَمِنْ خَلْفِي وَعَنْ يَمِينِي وَعَنْ شِمَالِي وَمِنْ فَوْقِي، وَأَعُوذُ بِعَظَمَتِكَ أَنْ أُغْتَالَ مِنْ تَحْتِي</div>
+      <p class="tr">Allāhumma innī as'aluka'l-ʿafwa wa'l-ʿāfiyata fi'd-dunyā wa'l-ākhirah…</p>
+      <p class="en">O Allah, I ask You for pardon and wellbeing in this world and the next. O Allah, I ask You for pardon and wellbeing in my religion, my worldly affairs, my family and my wealth. O Allah, conceal my faults and calm my fears. O Allah, guard me from in front of me and behind me, from my right and my left, and from above me; and I seek refuge in Your greatness from being swallowed up from beneath me.</p>
+      <p class="src"><strong>Sunan Abī Dāwūd</strong> 5074, <strong>Sunan Ibn Mājah</strong> 3871 — graded ṣaḥīḥ by al-Albānī.</p>
+    </article>
+
+    <article class="dua">
+      <div class="dua-head"><span class="num">13</span><h3>Do not leave me to myself</h3><span class="count">once</span></div>
+      <div class="ar" dir="rtl" lang="ar">يَا حَيُّ يَا قَيُّومُ بِرَحْمَتِكَ أَسْتَغِيثُ، أَصْلِحْ لِي شَأْنِي كُلَّهُ، وَلَا تَكِلْنِي إِلَى نَفْسِي طَرْفَةَ عَيْنٍ</div>
+      <p class="tr">Yā Ḥayyu yā Qayyūm, bi-raḥmatika astaghīth, aṣliḥ lī sha'nī kullah, wa lā takilnī ilā nafsī ṭarfata ʿayn.</p>
+      <p class="en">O Ever-Living, O Sustainer, by Your mercy I seek relief. Set right all of my affairs, and do not leave me to myself for even the blink of an eye.</p>
+      <p class="src"><strong>Sunan an-Nasā'ī, ʿAmal al-Yawm wa'l-Laylah</strong> 575; also <strong>al-Ḥākim</strong> — graded ḥasan by al-Albānī in <em>Ṣaḥīḥ al-Targhīb</em> 661.</p>
+    </article>
+
+    <article class="dua">
+      <div class="dua-head"><span class="num">14</span><h3>Glorification, morning and evening</h3><span class="count">×100</span></div>
+      <div class="ar" dir="rtl" lang="ar">سُبْحَانَ اللَّهِ وَبِحَمْدِهِ</div>
+      <p class="tr">Subḥāna-llāhi wa biḥamdih.</p>
+      <p class="en">Glory be to Allah, and all praise is His.</p>
+      <p class="virtue">Whoever says it a hundred times in a day has his sins erased, even if they were like the foam of the sea. No one will come on the Day of Resurrection with anything better than someone who said it a hundred times morning and evening — except one who said the like of it or more.</p>
+      <p class="src"><strong>Ṣaḥīḥ al-Bukhārī</strong> 6405 and <strong>Ṣaḥīḥ Muslim</strong> 2691, 2692.</p>
+    </article>
+  </section>
+
+  <!-- ================= AFTER EACH PRAYER ================= -->
+  <section class="section" data-time="prayer">
+    <div class="section-head">
+      <span class="dot"></span>
+      <h2>After every farḍ prayer</h2>
+      <span class="when">Five times daily</span>
+    </div>
+    <p class="section-note">Said immediately after the taslīm, before standing up.</p>
+
+    <article class="dua">
+      <div class="dua-head"><span class="num">15</span><h3>Seeking forgiveness, then peace</h3><span class="count">×3, then once</span></div>
+      <div class="ar" dir="rtl" lang="ar">أَسْتَغْفِرُ اللَّهَ &nbsp;<span class="ayah">×٣</span><br>اللَّهُمَّ أَنْتَ السَّلَامُ وَمِنْكَ السَّلَامُ، تَبَارَكْتَ يَا ذَا الْجَلَالِ وَالْإِكْرَامِ</div>
+      <p class="tr">Astaghfiru-llāh (×3). Allāhumma anta's-salām, wa minka's-salām, tabārakta yā dha'l-jalāli wa'l-ikrām.</p>
+      <p class="en">I seek Allah's forgiveness (three times). O Allah, You are Peace, and from You comes peace. Blessed are You, Owner of Majesty and Honour.</p>
+      <p class="src"><strong>Ṣaḥīḥ Muslim</strong> 591.</p>
+    </article>
+
+    <article class="dua">
+      <div class="dua-head"><span class="num">16</span><h3>The tasbīḥ of thirty-three</h3><span class="count">33 · 33 · 33 + 1</span></div>
+      <div class="ar" dir="rtl" lang="ar">سُبْحَانَ اللَّهِ <span class="ayah">×٣٣</span> &nbsp; الْحَمْدُ لِلَّهِ <span class="ayah">×٣٣</span> &nbsp; اللَّهُ أَكْبَرُ <span class="ayah">×٣٣</span><br>لَا إِلَهَ إِلَّا اللَّهُ وَحْدَهُ لَا شَرِيكَ لَهُ، لَهُ الْمُلْكُ وَلَهُ الْحَمْدُ وَهُوَ عَلَى كُلِّ شَيْءٍ قَدِيرٌ</div>
+      <p class="tr">Subḥāna-llāh (×33), al-ḥamdu lillāh (×33), Allāhu akbar (×33), then: Lā ilāha illā-llāhu waḥdahu lā sharīka lah, lahu'l-mulku wa lahu'l-ḥamd, wa huwa ʿalā kulli shay'in qadīr.</p>
+      <p class="en">Glory be to Allah (33), all praise is for Allah (33), Allah is the greatest (33), completing the hundred with: There is no god but Allah alone, with no partner. His is the dominion and His is the praise, and He is able to do all things.</p>
+      <p class="virtue">Whoever says this after every prayer will have his sins forgiven, even if they were like the foam of the sea.</p>
+      <p class="src"><strong>Ṣaḥīḥ Muslim</strong> 597.</p>
+    </article>
+
+    <article class="dua">
+      <div class="dua-head"><span class="num">17</span><h3>Help me to remember You</h3><span class="count">once</span></div>
+      <div class="ar" dir="rtl" lang="ar">اللَّهُمَّ أَعِنِّي عَلَى ذِكْرِكَ وَشُكْرِكَ وَحُسْنِ عِبَادَتِكَ</div>
+      <p class="tr">Allāhumma aʿinnī ʿalā dhikrika wa shukrika wa ḥusni ʿibādatik.</p>
+      <p class="en">O Allah, help me to remember You, to thank You, and to worship You well.</p>
+      <p class="virtue">The Prophet ﷺ took Muʿādh by the hand, told him he loved him, and instructed him never to leave this dua after any prayer.</p>
+      <p class="src"><strong>Sunan Abī Dāwūd</strong> 1522, <strong>Sunan an-Nasā'ī</strong> 1303 — graded ṣaḥīḥ.</p>
+    </article>
+
+    <article class="dua">
+      <div class="dua-head"><span class="num">18</span><h3>Āyat al-Kursī after each prayer</h3><span class="count">once</span></div>
+      <div class="ar" dir="rtl" lang="ar">اللَّهُ لَا إِلَٰهَ إِلَّا هُوَ الْحَيُّ الْقَيُّومُ …</div>
+      <p class="en">Recite Āyat al-Kursī in full (see no. 3 above) after every obligatory prayer.</p>
+      <p class="virtue">Whoever recites it after every prayer, nothing stands between him and entering Paradise except death.</p>
+      <p class="src"><strong>Sunan an-Nasā'ī, ʿAmal al-Yawm wa'l-Laylah</strong> 100; graded ṣaḥīḥ by al-Albānī in <em>Ṣaḥīḥ al-Jāmiʿ</em> 6464.</p>
+    </article>
+  </section>
+
+  <!-- ================= THROUGH THE DAY ================= -->
+  <section class="section" data-time="day">
+    <div class="section-head">
+      <span class="dot"></span>
+      <h2>Through the day</h2>
+      <span class="when">Whenever there is a gap</span>
+    </div>
+    <p class="section-note">These are the short ones worth keeping on the tongue while walking, commuting or waiting.</p>
+
+    <article class="dua">
+      <div class="dua-head"><span class="num">19</span><h3>Istighfār</h3><span class="count">×100</span></div>
+      <div class="ar" dir="rtl" lang="ar">أَسْتَغْفِرُ اللَّهَ وَأَتُوبُ إِلَيْهِ</div>
+      <p class="tr">Astaghfiru-llāha wa atūbu ilayh.</p>
+      <p class="en">I seek the forgiveness of Allah and I turn to Him in repentance.</p>
+      <p class="virtue">The Prophet ﷺ said he sought Allah's forgiveness a hundred times a day.</p>
+      <p class="src"><strong>Ṣaḥīḥ Muslim</strong> 2702.</p>
+    </article>
+
+    <article class="dua">
+      <div class="dua-head"><span class="num">20</span><h3>The tahlīl</h3><span class="count">×100</span></div>
+      <div class="ar" dir="rtl" lang="ar">لَا إِلَهَ إِلَّا اللَّهُ وَحْدَهُ لَا شَرِيكَ لَهُ، لَهُ الْمُلْكُ وَلَهُ الْحَمْدُ وَهُوَ عَلَى كُلِّ شَيْءٍ قَدِيرٌ</div>
+      <p class="tr">Lā ilāha illā-llāhu waḥdahu lā sharīka lah, lahu'l-mulku wa lahu'l-ḥamd, wa huwa ʿalā kulli shay'in qadīr.</p>
+      <p class="en">There is no god but Allah alone, with no partner. His is the dominion and His is the praise, and He is able to do all things.</p>
+      <p class="virtue">Whoever says it a hundred times in a day receives the reward of freeing ten slaves, has a hundred good deeds recorded and a hundred sins erased, and is guarded from Shayṭān until evening.</p>
+      <p class="src"><strong>Ṣaḥīḥ al-Bukhārī</strong> 3293 and <strong>Ṣaḥīḥ Muslim</strong> 2691.</p>
+    </article>
+
+    <article class="dua">
+      <div class="dua-head"><span class="num">21</span><h3>Ṣalawāt upon the Prophet ﷺ</h3><span class="count">often</span></div>
+      <div class="ar" dir="rtl" lang="ar">اللَّهُمَّ صَلِّ عَلَى مُحَمَّدٍ وَعَلَى آلِ مُحَمَّدٍ، كَمَا صَلَّيْتَ عَلَى إِبْرَاهِيمَ وَعَلَى آلِ إِبْرَاهِيمَ، إِنَّكَ حَمِيدٌ مَجِيدٌ. اللَّهُمَّ بَارِكْ عَلَى مُحَمَّدٍ وَعَلَى آلِ مُحَمَّدٍ، كَمَا بَارَكْتَ عَلَى إِبْرَاهِيمَ وَعَلَى آلِ إِبْرَاهِيمَ، إِنَّكَ حَمِيدٌ مَجِيدٌ</div>
+      <p class="tr">Allāhumma ṣalli ʿalā Muḥammadin wa ʿalā āli Muḥammad, kamā ṣallayta ʿalā Ibrāhīma wa ʿalā āli Ibrāhīm, innaka Ḥamīdun Majīd. Allāhumma bārik ʿalā Muḥammadin wa ʿalā āli Muḥammad, kamā bārakta ʿalā Ibrāhīma wa ʿalā āli Ibrāhīm, innaka Ḥamīdun Majīd.</p>
+      <p class="en">O Allah, send prayers upon Muhammad and upon the family of Muhammad, as You sent prayers upon Ibrāhīm and the family of Ibrāhīm. Indeed You are Praiseworthy, Glorious. O Allah, send blessings upon Muhammad and upon the family of Muhammad, as You blessed Ibrāhīm and the family of Ibrāhīm. Indeed You are Praiseworthy, Glorious.</p>
+      <p class="virtue">Whoever sends one prayer upon the Prophet ﷺ, Allah sends ten upon him.</p>
+      <p class="src"><strong>Ṣaḥīḥ al-Bukhārī</strong> 3370 and <strong>Ṣaḥīḥ Muslim</strong> 406. Virtue: <strong>Ṣaḥīḥ Muslim</strong> 408.</p>
+    </article>
+
+    <article class="dua">
+      <div class="dua-head"><span class="num">22</span><h3>A treasure of Paradise</h3><span class="count">often</span></div>
+      <div class="ar" dir="rtl" lang="ar">لَا حَوْلَ وَلَا قُوَّةَ إِلَّا بِاللَّهِ</div>
+      <p class="tr">Lā ḥawla wa lā quwwata illā billāh.</p>
+      <p class="en">There is no power and no strength except with Allah.</p>
+      <p class="virtue">The Prophet ﷺ called it one of the treasures of Paradise.</p>
+      <p class="src"><strong>Ṣaḥīḥ al-Bukhārī</strong> 6384 and <strong>Ṣaḥīḥ Muslim</strong> 2704.</p>
+    </article>
+
+    <article class="dua">
+      <div class="dua-head"><span class="num">23</span><h3>The dua he ﷺ made most</h3><span class="count">often</span></div>
+      <div class="ar" dir="rtl" lang="ar">رَبَّنَا آتِنَا فِي الدُّنْيَا حَسَنَةً وَفِي الْآخِرَةِ حَسَنَةً وَقِنَا عَذَابَ النَّارِ</div>
+      <p class="tr">Rabbanā ātinā fi'd-dunyā ḥasanatan wa fi'l-ākhirati ḥasanatan wa qinā ʿadhāba'n-nār.</p>
+      <p class="en">Our Lord, give us good in this world and good in the Hereafter, and protect us from the punishment of the Fire.</p>
+      <p class="src"><strong>Qur'ān 2:201.</strong> Anas said this was the supplication the Prophet ﷺ made most often — <strong>Ṣaḥīḥ al-Bukhārī</strong> 6389, <strong>Ṣaḥīḥ Muslim</strong> 2690.</p>
+    </article>
+
+    <article class="dua">
+      <div class="dua-head"><span class="num">24</span><h3>For a steady heart</h3><span class="count">often</span></div>
+      <div class="ar" dir="rtl" lang="ar">يَا مُقَلِّبَ الْقُلُوبِ ثَبِّتْ قَلْبِي عَلَى دِينِكَ</div>
+      <p class="tr">Yā Muqalliba'l-qulūb, thabbit qalbī ʿalā dīnik.</p>
+      <p class="en">O Turner of hearts, make my heart firm upon Your religion.</p>
+      <p class="virtue">This was the oath and the frequent supplication of the Prophet ﷺ; when asked about it, he said hearts are between two of the Fingers of the Most Merciful.</p>
+      <p class="src"><strong>Jāmiʿ at-Tirmidhī</strong> 2140 — graded ḥasan.</p>
+    </article>
+
+    <article class="dua">
+      <div class="dua-head"><span class="num">25</span><h3>Against worry, debt and weakness</h3><span class="count">as needed</span></div>
+      <div class="ar" dir="rtl" lang="ar">اللَّهُمَّ إِنِّي أَعُوذُ بِكَ مِنَ الْهَمِّ وَالْحَزَنِ، وَالْعَجْزِ وَالْكَسَلِ، وَالْبُخْلِ وَالْجُبْنِ، وَضَلَعِ الدَّيْنِ وَغَلَبَةِ الرِّجَالِ</div>
+      <p class="tr">Allāhumma innī aʿūdhu bika mina'l-hammi wa'l-ḥazan, wa'l-ʿajzi wa'l-kasal, wa'l-bukhli wa'l-jubn, wa ḍalaʿi'd-dayni wa ghalabati'r-rijāl.</p>
+      <p class="en">O Allah, I seek refuge in You from anxiety and grief, from incapacity and laziness, from miserliness and cowardice, from the burden of debt and from being overpowered by men.</p>
+      <p class="src"><strong>Ṣaḥīḥ al-Bukhārī</strong> 6369.</p>
+    </article>
+
+    <article class="dua">
+      <div class="dua-head"><span class="num">26</span><h3>For knowledge, and for parents</h3><span class="count">often</span></div>
+      <div class="ar" dir="rtl" lang="ar">رَبِّ زِدْنِي عِلْمًا<br>رَبِّ ارْحَمْهُمَا كَمَا رَبَّيَانِي صَغِيرًا</div>
+      <p class="tr">Rabbi zidnī ʿilmā. · Rabbi-rḥamhumā kamā rabbayānī ṣaghīrā.</p>
+      <p class="en">My Lord, increase me in knowledge. · My Lord, have mercy on them both as they raised me when I was small.</p>
+      <p class="src"><strong>Qur'ān 20:114</strong> and <strong>Qur'ān 17:24.</strong></p>
+    </article>
+  </section>
+
+  <!-- ================= OCCASIONS ================= -->
+  <section class="section" data-time="evening">
+    <div class="section-head">
+      <span class="dot"></span>
+      <h2>Small moments</h2>
+      <span class="when">Leaving · Eating · Returning</span>
+    </div>
+
+    <article class="dua">
+      <div class="dua-head"><span class="num">27</span><h3>Leaving the house</h3><span class="count">each time</span></div>
+      <div class="ar" dir="rtl" lang="ar">بِسْمِ اللَّهِ، تَوَكَّلْتُ عَلَى اللَّهِ، وَلَا حَوْلَ وَلَا قُوَّةَ إِلَّا بِاللَّهِ</div>
+      <p class="tr">Bismillāh, tawakkaltu ʿala-llāh, wa lā ḥawla wa lā quwwata illā billāh.</p>
+      <p class="en">In the name of Allah. I place my trust in Allah. There is no power and no strength except with Allah.</p>
+      <p class="virtue">It is said to him: you are guided, sufficed and protected — and Shayṭān turns away from him.</p>
+      <p class="src"><strong>Sunan Abī Dāwūd</strong> 5095, <strong>Jāmiʿ at-Tirmidhī</strong> 3426 — graded ṣaḥīḥ.</p>
+    </article>
+
+    <article class="dua">
+      <div class="dua-head"><span class="num">28</span><h3>Before and after eating</h3><span class="count">each meal</span></div>
+      <div class="ar" dir="rtl" lang="ar">بِسْمِ اللَّهِ<br><span style="font-size:.8em">وإن نسي: </span>بِسْمِ اللَّهِ أَوَّلَهُ وَآخِرَهُ<br>الْحَمْدُ لِلَّهِ الَّذِي أَطْعَمَنِي هَذَا وَرَزَقَنِيهِ مِنْ غَيْرِ حَوْلٍ مِنِّي وَلَا قُوَّةٍ</div>
+      <p class="tr">Bismillāh. — If forgotten mid-meal: Bismillāhi awwalahu wa ākhirah. — After: Al-ḥamdu lillāhi alladhī aṭʿamanī hādhā wa razaqanīhi min ghayri ḥawlin minnī wa lā quwwah.</p>
+      <p class="en">In the name of Allah. — If forgotten: In the name of Allah, at its beginning and at its end. — After: All praise is for Allah, who fed me this and provided it for me without any power or strength on my part.</p>
+      <p class="src">Before: <strong>Sunan Abī Dāwūd</strong> 3767, <strong>Jāmiʿ at-Tirmidhī</strong> 1858 — ṣaḥīḥ. After: <strong>Sunan Abī Dāwūd</strong> 4023, <strong>Jāmiʿ at-Tirmidhī</strong> 3458 — ḥasan.</p>
+    </article>
+  </section>
+
+  <!-- ================= BEFORE SLEEP ================= -->
+  <section class="section" data-time="night">
+    <div class="section-head">
+      <span class="dot"></span>
+      <h2>Before sleep</h2>
+      <span class="when">In bed</span>
+    </div>
+    <p class="section-note">Recite the three sūrahs into cupped palms, blow lightly into them, and wipe over the body — beginning with the head and face — three times.</p>
+
+    <article class="dua">
+      <div class="dua-head"><span class="num">29</span><h3>Āyat al-Kursī, and the three sūrahs into the hands</h3><span class="count">×3</span></div>
+      <div class="ar" dir="rtl" lang="ar">اللَّهُ لَا إِلَٰهَ إِلَّا هُوَ الْحَيُّ الْقَيُّومُ … <br>قُلْ هُوَ اللَّهُ أَحَدٌ · قُلْ أَعُوذُ بِرَبِّ الْفَلَقِ · قُلْ أَعُوذُ بِرَبِّ النَّاسِ</div>
+      <p class="en">Recite Āyat al-Kursī once, then al-Ikhlāṣ, al-Falaq and an-Nās (nos. 3–6 above) into the palms, three times.</p>
+      <p class="virtue">Of Āyat al-Kursī at bedtime: a guardian from Allah will remain with you and no devil will come near you until morning.</p>
+      <p class="src">Āyat al-Kursī: <strong>Ṣaḥīḥ al-Bukhārī</strong> 2311. The three sūrahs: <strong>Ṣaḥīḥ al-Bukhārī</strong> 5017.</p>
+    </article>
+
+    <article class="dua">
+      <div class="dua-head"><span class="num">30</span><h3>The last two verses of al-Baqarah</h3><span class="count">once</span></div>
+      <div class="ar" dir="rtl" lang="ar">آمَنَ الرَّسُولُ بِمَا أُنزِلَ إِلَيْهِ مِن رَّبِّهِ وَالْمُؤْمِنُونَ ۚ كُلٌّ آمَنَ بِاللَّهِ وَمَلَائِكَتِهِ وَكُتُبِهِ وَرُسُلِهِ لَا نُفَرِّقُ بَيْنَ أَحَدٍ مِّن رُّسُلِهِ ۚ وَقَالُوا سَمِعْنَا وَأَطَعْنَا ۖ غُفْرَانَكَ رَبَّنَا وَإِلَيْكَ الْمَصِيرُ <span class="ayah">﴿٢٨٥﴾</span> لَا يُكَلِّفُ اللَّهُ نَفْسًا إِلَّا وُسْعَهَا ۚ لَهَا مَا كَسَبَتْ وَعَلَيْهَا مَا اكْتَسَبَتْ ۗ رَبَّنَا لَا تُؤَاخِذْنَا إِن نَّسِينَا أَوْ أَخْطَأْنَا ۚ رَبَّنَا وَلَا تَحْمِلْ عَلَيْنَا إِصْرًا كَمَا حَمَلْتَهُ عَلَى الَّذِينَ مِن قَبْلِنَا ۚ رَبَّنَا وَلَا تُحَمِّلْنَا مَا لَا طَاقَةَ لَنَا بِهِ ۖ وَاعْفُ عَنَّا وَاغْفِرْ لَنَا وَارْحَمْنَا ۚ أَنتَ مَوْلَانَا فَانصُرْنَا عَلَى الْقَوْمِ الْكَافِرِينَ <span class="ayah">﴿٢٨٦﴾</span></div>
+      <p class="en">The Messenger has believed in what was revealed to him from his Lord, and so have the believers. Each of them believes in Allah, His angels, His books and His messengers — we make no distinction between any of His messengers. And they said: we hear and we obey. Your forgiveness, our Lord; and to You is the return. Allah does not burden a soul beyond its capacity. It gets what it has earned, and it bears what it has brought upon itself. Our Lord, do not take us to task if we forget or make a mistake. Our Lord, do not lay upon us a burden like the one You laid upon those before us. Our Lord, do not burden us with what we have no strength to bear. Pardon us, forgive us, and have mercy on us. You are our Protector, so grant us victory over the disbelieving people.</p>
+      <p class="virtue">Whoever recites these two verses at night, they will suffice him.</p>
+      <p class="src"><strong>Qur'ān 2:285–286.</strong> Virtue: <strong>Ṣaḥīḥ al-Bukhārī</strong> 5009, <strong>Ṣaḥīḥ Muslim</strong> 807.</p>
+    </article>
+
+    <article class="dua">
+      <div class="dua-head"><span class="num">31</span><h3>The tasbīḥ of Fāṭimah</h3><span class="count">33 · 33 · 34</span></div>
+      <div class="ar" dir="rtl" lang="ar">سُبْحَانَ اللَّهِ <span class="ayah">×٣٣</span> &nbsp; الْحَمْدُ لِلَّهِ <span class="ayah">×٣٣</span> &nbsp; اللَّهُ أَكْبَرُ <span class="ayah">×٣٤</span></div>
+      <p class="tr">Subḥāna-llāh (×33), al-ḥamdu lillāh (×33), Allāhu akbar (×34).</p>
+      <p class="en">Glory be to Allah (33), all praise is for Allah (33), Allah is the greatest (34).</p>
+      <p class="virtue">The Prophet ﷺ taught this to Fāṭimah instead of the servant she asked for, saying it was better for her.</p>
+      <p class="src"><strong>Ṣaḥīḥ al-Bukhārī</strong> 3705, <strong>Ṣaḥīḥ Muslim</strong> 2727.</p>
+    </article>
+
+    <article class="dua">
+      <div class="dua-head"><span class="num">32</span><h3>Entrusting the soul</h3><span class="count">once</span></div>
+      <div class="ar" dir="rtl" lang="ar">اللَّهُمَّ أَسْلَمْتُ نَفْسِي إِلَيْكَ، وَفَوَّضْتُ أَمْرِي إِلَيْكَ، وَوَجَّهْتُ وَجْهِي إِلَيْكَ، وَأَلْجَأْتُ ظَهْرِي إِلَيْكَ، رَغْبَةً وَرَهْبَةً إِلَيْكَ، لَا مَلْجَأَ وَلَا مَنْجَا مِنْكَ إِلَّا إِلَيْكَ، آمَنْتُ بِكِتَابِكَ الَّذِي أَنْزَلْتَ، وَبِنَبِيِّكَ الَّذِي أَرْسَلْتَ</div>
+      <p class="tr">Allāhumma aslamtu nafsī ilayk, wa fawwaḍtu amrī ilayk, wa wajjahtu wajhī ilayk, wa alja'tu ẓahrī ilayk, raghbatan wa rahbatan ilayk. Lā malja'a wa lā manjā minka illā ilayk. Āmantu bi-kitābika alladhī anzalt, wa bi-nabiyyika alladhī arsalt.</p>
+      <p class="en">O Allah, I submit my soul to You, I entrust my affair to You, I turn my face to You, and I rest my back upon You — in hope of You and in fear of You. There is no refuge and no escape from You except to You. I believe in Your Book which You sent down and in Your Prophet whom You sent.</p>
+      <p class="virtue">The Prophet ﷺ said that whoever says this and dies that night dies upon the fiṭrah — so make it the last thing you say.</p>
+      <p class="src"><strong>Ṣaḥīḥ al-Bukhārī</strong> 247, <strong>Ṣaḥīḥ Muslim</strong> 2710.</p>
+    </article>
+
+    <article class="dua">
+      <div class="dua-head"><span class="num">33</span><h3>The last words of the day</h3><span class="count">once</span></div>
+      <div class="ar" dir="rtl" lang="ar">بِاسْمِكَ اللَّهُمَّ أَمُوتُ وَأَحْيَا</div>
+      <p class="tr">Bismika Allāhumma amūtu wa aḥyā.</p>
+      <p class="en">In Your name, O Allah, I die and I live.</p>
+      <p class="src"><strong>Ṣaḥīḥ al-Bukhārī</strong> 6324.</p>
+    </article>
+  </section>
+
+  <!-- ================= COLOPHON ================= -->
+  <section class="colophon">
+    <h2>On the sources</h2>
+    <p>Everything here is either Qur'ān or a ḥadīth recorded in the six books. Nothing has been included that is weak or fabricated.</p>
+    <ul>
+      <li>Qur'ānic passages are cited by sūrah and āyah.</li>
+      <li>Ḥadīth are cited by collection and by the ḥadīth numbering used in the standard printed editions (the same numbering shown on sunnah.com). Numbering does vary between editions, so if a number does not match your copy, search by the opening words of the Arabic.</li>
+      <li>Reports from Ṣaḥīḥ al-Bukhārī and Ṣaḥīḥ Muslim are ṣaḥīḥ by the agreement of the scholars and need no further grading.</li>
+      <li>For reports from the Sunan collections, the grading has been noted (ṣaḥīḥ or ḥasan), following the well-known gradings of Shaykh Muḥammad Nāṣir ad-Dīn al-Albānī.</li>
+      <li>The arrangement follows <em>Ḥiṣn al-Muslim</em> by Saʿīd ibn ʿAlī ibn Wahf al-Qaḥṭānī, and Imām an-Nawawī's <em>al-Adhkār</em> — the two standard compilations in Sunnī practice.</li>
+    </ul>
+    <p>The English is a plain rendering of the meaning rather than a formal translation; the Arabic is what is recited. Where you can, verify a wording with a teacher or a printed copy of <em>Ḥiṣn al-Muslim</em> before settling into a habit with it.</p>
+    <p style="margin-top:1.5rem;font-style:italic;">Consistency matters more than volume. The Prophet ﷺ said the deeds most beloved to Allah are the ones done regularly, even if they are few — <strong>Ṣaḥīḥ al-Bukhārī</strong> 6464.</p>
+  </section>
+
+</div>
+</body>
+</html>
